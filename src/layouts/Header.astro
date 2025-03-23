@@ -3,20 +3,21 @@
 ---
 
 <header class="w-full bg-tuturnera-white shadow-md">
-  <div class="w-full grid grid-cols-3 py-2">
-    <div class="flex justify-center items-center gap-1">
+  <!-- MEDIUM SCREENS -->
+  <div class="w-full hidden md:grid grid-cols-3 py-2">
+    <a href="/" class="flex justify-center items-center gap-1">
       <img src="https://res.cloudinary.com/dmfr1l3tj/image/upload/v1742699764/TuTurnera-Logo_f5tq5j.webp" alt="TuTurnera logo" class="h-10 drop-shadow-sm">
       <div class="flex justify-center items-center leading-none text-2xl text-tuturnera-blue font-bold drop-shadow-sm">
         <p><span class="text-tuturnera-light-green font-black">T</span>u<span class="text-tuturnera-light-green font-black">T</span>urnera<span class="text-tuturnera-light-green font-black">.</span></p>
       </div>
-    </div>
+    </a>
 
     <div class="h-full">
       <nav class="h-full">
         <ul class="h-full flex justify-evenly items-center text-sm text-tuturnera-blue font-semibold">
-          <li><a href="" class="hover:text-tuturnera-dark-green hover:drop-shadow-tuturnera-header-link">About Us</a></li>
           <li><a href="" class="hover:text-tuturnera-dark-green hover:drop-shadow-tuturnera-header-link">Services</a></li>
-          <li><a href="" class="hover:text-tuturnera-dark-green hover:drop-shadow-tuturnera-header-link">Contact</a></li>
+          <li><a href="" class="hover:text-tuturnera-dark-green hover:drop-shadow-tuturnera-header-link">Company</a></li>
+          <li><a href="" class="hover:text-tuturnera-dark-green hover:drop-shadow-tuturnera-header-link">Support</a></li>
           <li><a href="" class="hover:text-tuturnera-dark-green hover:drop-shadow-tuturnera-header-link">Pricing</a></li>
         </ul>
       </nav>
@@ -41,4 +42,83 @@
       </a>
     </div>  
   </div>
+
+  <!-- SMALL SCREENS -->
+  <div class="w-full block md:hidden flex justify-between items-center py-2 px-6">
+    <a href="/" class="flex justify-center items-center gap-1">
+      <img src="https://res.cloudinary.com/dmfr1l3tj/image/upload/v1742699764/TuTurnera-Logo_f5tq5j.webp" alt="TuTurnera logo" class="h-10 drop-shadow-sm">
+      <div class="flex justify-center items-center leading-none text-2xl text-tuturnera-blue font-bold drop-shadow-sm">
+        <p><span class="text-tuturnera-light-green font-black">T</span>u<span class="text-tuturnera-light-green font-black">T</span>urnera<span class="text-tuturnera-light-green font-black">.</span></p>
+      </div>
+    </a>
+
+    <div class="flex items-center gap-4">
+      <button type="button" class="flex items-center gap-1 text-tuturnera-blue font-semibold active:text-tuturnera-dark-green active:drop-shadow-tuturnera-header-link">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24">
+          <path fill="currentColor" d="M16.36 14c.08-.66.14-1.32.14-2s-.06-1.34-.14-2h3.38c.16.64.26 1.31.26 2s-.1 1.36-.26 2m-5.15 5.56c.6-1.11 1.06-2.31 1.38-3.56h2.95a8.03 8.03 0 0 1-4.33 3.56M14.34 14H9.66c-.1-.66-.16-1.32-.16-2s.06-1.35.16-2h4.68c.09.65.16 1.32.16 2s-.07 1.34-.16 2M12 19.96c-.83-1.2-1.5-2.53-1.91-3.96h3.82c-.41 1.43-1.08 2.76-1.91 3.96M8 8H5.08A7.92 7.92 0 0 1 9.4 4.44C8.8 5.55 8.35 6.75 8 8m-2.92 8H8c.35 1.25.8 2.45 1.4 3.56A8 8 0 0 1 5.08 16m-.82-2C4.1 13.36 4 12.69 4 12s.1-1.36.26-2h3.38c-.08.66-.14 1.32-.14 2s.06 1.34.14 2M12 4.03c.83 1.2 1.5 2.54 1.91 3.97h-3.82c.41-1.43 1.08-2.77 1.91-3.97M18.92 8h-2.95a15.7 15.7 0 0 0-1.38-3.56c1.84.63 3.37 1.9 4.33 3.56M12 2C6.47 2 2 6.5 2 12a10 10 0 0 0 10 10a10 10 0 0 0 10-10A10 10 0 0 0 12 2"/>
+        </svg>
+        En
+      </button>
+      <button id="toggle-menu" type="button" class="text-tuturnera-blue drop-shadow-tuturnera-header-link active:text-tuturnera-dark-green">
+        <svg id="menu-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+
+        <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <div id="header-content" class="absolute left-1/2 -translate-x-1/2 w-full bg-tuturnera-white shadow-md">
+    <nav class="w-full py-6">
+      <ul class="w-full flex flex-col items-center text-tuturnera-blue font-semibold space-y-4">
+        <li><a href="" class="active:text-tuturnera-dark-green active:drop-shadow-tuturnera-header-link">Services</a></li>
+        <li><a href="" class="active:text-tuturnera-dark-green active:drop-shadow-tuturnera-header-link">Company</a></li>
+        <li><a href="" class="active:text-tuturnera-dark-green active:drop-shadow-tuturnera-header-link">Support</a></li>
+        <li><a href="" class="active:text-tuturnera-dark-green active:drop-shadow-tuturnera-header-link">Pricing</a></li>
+      </ul>
+    </nav>
+
+    <div class="w-3/4 h-[2px] mx-auto bg-tuturnera-light-gray"></div>
+
+    <div class="flex flex-col items-center py-6 gap-y-4 font-semibold">
+      <a href="" class="w-3/4 border-2 border-tuturnera-light-gray bg-tuturnera-blue text-tuturnera-white py-2 px-5 rounded-lg active:rounded-4xl active:shadow-md text-center">
+        Sign in
+      </a>
+  
+      <a href="" class="w-3/4 border-2 border-tuturnera-blue bg-green-gradient text-tuturnera-blue py-2 px-5 rounded-lg active:rounded-4xl active:shadow-md text-center">
+        Log in
+      </a>
+    </div>
+  </div>
 </header>
+
+<script>
+  const toggleMenuButton = document.getElementById('toggle-menu');
+  const headerContent = document.getElementById('header-content');
+  const menuIcon = document.getElementById('menu-icon');
+  const closeIcon = document.getElementById('close-icon');
+
+  headerContent?.classList.add('invisible');
+  closeIcon?.classList.add('hidden');
+
+  toggleMenuButton?.addEventListener('click', () => {
+    if (headerContent?.classList.contains('invisible')) {
+      closeIcon?.classList.remove('hidden');
+      closeIcon?.classList.add('block');
+
+      menuIcon?.classList.remove('block');
+      menuIcon?.classList.add('hidden');
+
+      headerContent.classList.remove('invisible');
+      headerContent.classList.add('visible');
+    } else {
+      closeIcon?.classList.remove('block');
+      closeIcon?.classList.add('hidden');
+
+      menuIcon?.classList.remove('hidden');
+      menuIcon?.classList.add('block');
+
+      headerContent?.classList.remove('visible');
+      headerContent?.classList.add('invisible');
+    }
+  });
+</script>
