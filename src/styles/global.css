@@ -1,9 +1,24 @@
 @import "tailwindcss";
 
+html, body {
+	margin: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.bg-green-gradient {
+    background: #39d876;  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to left, #39d876, #00ED64);  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to left, #39d876, #00ED64); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
 @theme {
     --color-tuturnera-light-green: #00ED64;
     --color-tuturnera-dark-green: #006A4A;
     --color-tuturnera-dark-gray: #00120B;
     --color-tuturnera-light-gray: #E7EAEE;
     --color-tuturnera-white: #F7F9F9;
+    --color-tuturnera-blue: #0C1B33;
+
+    --shadow-tuturnera-header-link: 0 0 1px #0008;
 }
