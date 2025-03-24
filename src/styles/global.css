@@ -12,6 +12,11 @@ html, body {
     background: linear-gradient(to left, #39d876, #00ED64); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 }
 
+.mask-radial {
+    mask: radial-gradient(circle at center, transparent 50%, rgb(255, 255, 255) 50%);
+    -webkit-mask: radial-gradient(circle at center, transparent 50%, rgb(255, 255, 255) 50%);
+}
+
 @theme {
     --color-tuturnera-light-green: #00ED64;
     --color-tuturnera-dark-green: #006A4A;
