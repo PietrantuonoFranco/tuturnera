@@ -1,0 +1,58 @@
+---
+import { getCollection } from "astro:content";
+
+const features = await getCollection('features');
+---
+
+<section class="w-full py-12 px-8 lg:px-12 bg-tuturnera-blue shadow-md flex flex-col items-center justify-center space-y-10">
+  <h2 class=" text-tuturnera-white text-4xl text-center">Discover all the <span class="font-semibold text-tuturnera-light-green">features</span></h2>
+
+  <div class="w-full grid lg:grid-cols-4 lg:px-12 gap-8 lg:gap-12">
+      {features.map(feature => {
+        const { data } = feature;
+        const { imgURL, title, description } = data;
+
+        return (
+          <div class="flex flex-col items-center p-6 rounded-4xl bg-tuturnera-white space-y-4">
+            <div class="w-full h-48 flex flex-col justify-center items-center rounded-2xl bg-tuturnera-light-gray">
+              <img src={imgURL} alt="" class="h-full w-full object-cover"/>
+            </div>
+
+            <div class="w-full flex flex-col px-4 space-y-4">
+              <h3 class="text-xl text-tuturnera-blue font-semibold">{title.en}</h3>
+
+              <p class="text-sm text-tuturnera-dark-gray">{description.en}</p>
+            </div>
+
+            <a href="" class="px-4 w-full mt-auto group flex items-center text-sm text-tuturnera-blue font-semibold gap-x-2 hover:text-tuturnera-dark-green">
+              <span class="
+                text-sm font-semibold 
+                text-tuturnera-blue 
+                group-hover:text-tuturnera-dark-green 
+                transition-colors duration-300 ease-in
+              ">
+                More information
+              </span>
+
+              <div class="flex justify-center items-center">
+                <svg width="25" height="auto" viewBox="0 0 16 8" fill="currentColor" xmlns="http://www.w3.org/2000/svg" class="group overflow-visible">
+                  <path 
+                    d="M14.5 4H3.5H4" 
+                    stroke="currentColor"
+                    class="transition-all duration-300 ease-in group-hover:translate-x-1 group-hover:d-[path('M14.5_4H3.5H0')]"
+                  />
+                  
+                  <path 
+                    d="M15.8536 4.35355C16.0488 4.15829 16.0488 3.84171 15.8536 3.64645L12.6716 0.464466C12.4763 0.269204 12.1597 0.269204 11.9645 0.464466C11.7692 0.659728 11.7692 0.976311 11.9645 1.17157L14.7929 4L11.9645 6.82843C11.7692 7.02369 11.7692 7.34027 11.9645 7.53553C12.1597 7.7308 12.4763 7.7308 12.6716 7.53553L15.8536 4.35355ZM15 4.5L15.5 4.5L15.5 3.5L15 3.5L15 4.5Z"
+                    class="transition-all duration-300 ease-in group-hover:translate-x-1"
+                  />
+                </svg>
+              </div>
+            </a>
+          </div>
+
+          
+        );
+      })}
+  </div>
+</section>
