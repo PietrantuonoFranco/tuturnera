@@ -1,5 +1,5 @@
 {
-  "name": "",
+  "name": "tuturnera",
   "type": "module",
   "version": "0.0.1",
   "scripts": {
@@ -10,8 +10,12 @@
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.15",
+    "@types/node": "^22.14.0",
     "astro": "^5.5.4",
     "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.7",
+    "pg": "^8.14.1",
+    "reflect-metadata": "^0.2.2",
     "tailwindcss": "^4.0.15",
     "typeorm": "^0.3.22"
   }
