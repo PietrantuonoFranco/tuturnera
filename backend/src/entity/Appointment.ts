@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import { BaseEntity, Entity, Column, PrimaryGeneratedColumn, ManyToOne } from "typeorm";
-import { Service } from "./Service";
+import { Service } from "./Service.ts";
 
 @Entity()
 export class Appointment extends BaseEntity {

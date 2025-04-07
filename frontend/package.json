@@ -6,17 +6,13 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "typeorm": "typeorm-ts-node-esm"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.15",
-    "@types/node": "^22.14.0",
     "astro": "^5.5.4",
-    "bcrypt": "^5.1.1",
-    "dotenv": "^16.4.7",
-    "pg": "^8.14.1",
-    "reflect-metadata": "^0.2.2",
     "tailwindcss": "^4.0.15",
-    "typeorm": "^0.3.22"
+    "ts-node": "^10.9.2"
   }
 }

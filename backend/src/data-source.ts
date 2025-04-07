@@ -1,18 +1,25 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-import { User } from "./entity/User"; // Ejemplo de entidad
-import * as dotenv from "dotenv";
+import 'dotenv/config';
+
+// Entities
+import { Adress } from "./entity/Adress.ts";
+import { Appointment } from "./entity/Appointment.ts";
+import { Service } from "./entity/Service.ts";
+import { Timetable } from "./entity/Timetable.ts";
+import { User } from "./entity/User.ts";
+
 
 export const AppDataSource = new DataSource({
     type: "postgres",  
     host: process.env.HOST,
-    port: parseInt(process.env.PORT || '3306'),
-    username: process.env.DB_USERNAME,
-    password: process.env.PASSWORD,
+    port: parseInt(process.env.PORT),
+    username: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     synchronize: true, // ¡Cuidado en producción! (usa migraciones)
     logging: true,
-    entities: [User],
+    entities: [ Adress, Appointment, Service, Timetable, User],
     migrations: [],
     subscribers: [],
 });
