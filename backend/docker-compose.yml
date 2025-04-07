@@ -1,16 +1,30 @@
 services:
 
-  postgres:
-    image: postgres:${TAG_VERSION}
-    
+  database:
+    image: postgres:${TAG_DB_VERSION:-latest} 
     ports:
-      - "${DB_PORT}:${DB_PORT}"
-
+      - "${DB_PORT:-5432}:5432"
     environment:
-      POSTGRES_USER: ${DB_USER}
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: ${DB_NAME}
-      POSTGRES_HOST: ${DB_HOST}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_NAME}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
-  
-
+  api:
+    image: express:${TAG_EXPRESS_VERSION:-latest}
+    build: .
+    volumes:
+      - ./:/server 
+    ports:
+      - "${EXPRESS_PORT:-3000}:3000"
+    environment:
+      DB_HOST: database
+      DB_PORT: 5432
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}    
+    depends_on:
+      - database
+volumes:
+  postgres_data:

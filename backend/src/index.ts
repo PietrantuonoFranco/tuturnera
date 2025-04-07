@@ -4,6 +4,7 @@ import { Request, Response } from "express"
 import { AppDataSource } from "./data-source.ts"
 import { Routes } from "./routes.js"
 //import { User } from "./entity/User"
+import 'dotenv/config';
 
 AppDataSource.initialize().then(async () => {
 
@@ -28,7 +29,7 @@ AppDataSource.initialize().then(async () => {
     // ...
 
     // start express server
-    app.listen(3000)
+    app.listen(process.env.EXPRESS_PORT)
 
     // insert new users for test
   /*  await AppDataSource.manager.save(

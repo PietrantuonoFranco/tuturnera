@@ -12,8 +12,8 @@ import { User } from "./entity/User.ts";
 
 export const AppDataSource = new DataSource({
     type: "postgres",  
-    host: process.env.HOST,
-    port: parseInt(process.env.PORT),
+    host: process.env.DB_HOST || 'postgres',
+    port: parseInt(process.env.PORT) || 5432,
     username: process.env.DB_USER,
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
