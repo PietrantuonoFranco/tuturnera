@@ -1,5 +1,6 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
+import { User } from "./entity/User"; // Ejemplo de entidad
 import * as dotenv from "dotenv";
 
 export const AppDataSource = new DataSource({
@@ -9,14 +10,13 @@ export const AppDataSource = new DataSource({
     username: process.env.DB_USERNAME,
     password: process.env.PASSWORD,
     database: process.env.DB_NAME,
-    synchronize: true,
+    synchronize: true, // ¡Cuidado en producción! (usa migraciones)
     logging: true,
-    entities: [],
+    entities: [User],
     migrations: [],
     subscribers: [],
 });
 
-// Inicializa la conexión
 AppDataSource.initialize()
     .then(() => console.log("✅ Conexión a la base de datos establecida"))
     .catch((error) => console.log("❌ Error de conexión:", error));
