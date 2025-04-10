@@ -5,6 +5,7 @@ import 'dotenv/config';
 // Entities
 import { Adress } from "./entity/Adress.ts";
 import { Appointment } from "./entity/Appointment.ts";
+import { Role } from "./entity/Role.ts";
 import { Service } from "./entity/Service.ts";
 import { Timetable } from "./entity/Timetable.ts";
 import { User } from "./entity/User.ts";
@@ -19,7 +20,7 @@ export const AppDataSource = new DataSource({
     database: process.env.DB_NAME,
     synchronize: true, // ¡Cuidado en producción! (usa migraciones)
     logging: true,
-    entities: [ Adress, Appointment, Service, Timetable, User],
+    entities: [ Adress, Appointment, Service, Role, Timetable, User],
     migrations: [],
     subscribers: [],
 });

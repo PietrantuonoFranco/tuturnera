@@ -1,7 +1,8 @@
 import "reflect-metadata";
-import { BaseEntity, Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne } from "typeorm";
-import type { Service } from "./Service.ts";
-import type { Appointment } from "./Appointment.ts";
+import { BaseEntity, Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOne, OneToOne, JoinColumn } from "typeorm";
+import { Service } from "./Service.ts";
+import { Appointment } from "./Appointment.ts";
+import { Role } from "./Role.ts";
 
 @Entity()
 export class User extends BaseEntity {
@@ -22,6 +23,10 @@ export class User extends BaseEntity {
 
     @Column({ type: "varchar", length: 45, nullable: true })
     imgProfileURL: string | null = null;
+
+    @OneToOne(() => Role)
+    @JoinColumn()
+    role!: Role;
 
     @OneToMany(() => User, (user) => user.parent)
     associatedUsers!: User[];

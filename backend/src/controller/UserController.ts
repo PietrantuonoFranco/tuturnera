@@ -1,9 +1,10 @@
 import { AppDataSource } from "../data-source.js"
 import { NextFunction, Request, Response } from "express"
 import { User } from "../entity/User.js"
+import "dotenv"
+import bcrypt from "bcryptjs";
 
 export class UserController {
-
     private userRepository = AppDataSource.getRepository(User)
 
     async all(request: Request, response: Response, next: NextFunction) {
@@ -25,12 +26,31 @@ export class UserController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        const { firstName, lastName, age } = request.body;
+        const {
+            email,
+            name,
+            surname,
+            password,
+            imgProfileURL,
+            role,
+            associatedUsers,
+            services,
+            appointments,
+        }: User = request.body;
+
+        const saltRounds = parseInt(process.env.SALT_ROUNDS);
+        const hashedPassword = await bcrypt.hash(password, saltRounds);
 
         const user = Object.assign(new User(), {
-            firstName,
-            lastName,
-            age
+            email,
+            name,
+            surname,
+            hashedPassword,
+            imgProfileURL,
+            role,
+            associatedUsers,
+            services,
+            appointments,
         })
 
         return this.userRepository.save(user)
