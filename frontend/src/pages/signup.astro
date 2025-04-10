@@ -4,14 +4,14 @@ import Layout from "../layouts/Layout.astro";
 
 ---
 
-<Layout title="Tuturnera - Login">
+<Layout title="Tuturnera - Signup">
   <main class="min-h-screen w-full">
     <div class="h-full w-full flex flex-col justify-center items-center">
-      <div class="w-3/5 mt-6 py-8 px-12 border-2 border-tuturnera-dark-gray bg-tuturnera-white shadow-md rounded-3xl flex flex-col justify-center items-center space-y-2">
+      <div class="md:w-3/5 mt-6 py-8 px-4 md:px-12 border-2 border-tuturnera-dark-gray bg-tuturnera-white shadow-md rounded-3xl flex flex-col justify-center items-center space-y-2">
         <h1 class="text-3xl font-bold">WELCOME!</h1>
         <h2 class="text-lg font-semibold">Register your account</h2>
 
-       {/* <p class="w-full my-1 py-1 px-2 border-l-3 border-red-600 bg-red-gradient text-red-600">Error al enviar el formulario</>*/}
+       <p id="message-box" class="w-full my-1 py-1 px-2 border-l-3 hidden"></>
 
         <form action="" class="w-full mt-4 flex flex-col justify-center items-center space-y-4">
           <div class="w-full grid md:grid-cols-2 gap-4">
@@ -117,7 +117,7 @@ import Layout from "../layouts/Layout.astro";
           </div>
 
 
-          <button type="submit" class="tuturnera-button w-full mt-6 hover:shadow-md border-2 border-tuturnera-blue bg-green-gradient text-tuturnera-blue py-2 font-semibold">Register</button>
+          <button id="register-button" type="submit" class="tuturnera-button w-full mt-6 hover:shadow-md border-2 border-tuturnera-blue bg-green-gradient text-tuturnera-blue py-2 font-semibold">Register</button>
 
           
           <p class="mt-1 text-sm">Already have an account? <a href="/login" class="relative group font-semibold text-tuturnera-dark-green transition-all duration-300 ease-in-out">Sign in!<span class="absolute inset-x-0 -bottom-0.5 h-0.5 bg-tuturnera-dark-green scale-x-0 transition-transform group-hover:scale-x-100"></span></a></p>
@@ -161,5 +161,103 @@ import Layout from "../layouts/Layout.astro";
         repPassEyeIcons.forEach((i: SVGSVGElement) => i.classList.toggle('hidden'));
       });
     });
+  }
+</script>
+
+<script>
+  import { getRoleById } from "src/api/roles";
+  import { createUser } from "src/api/users";
+  import 'dotenv/config';
+
+  // Inputs
+  const emailInput: HTMLInputElement | null = document.getElementById ('email') as HTMLInputElement;
+  const nameInput: HTMLInputElement | null = document.getElementById ('name') as HTMLInputElement;
+  const surnameInput: HTMLInputElement | null = document.getElementById ('surname') as HTMLInputElement;
+  const passwordInput: HTMLInputElement | null = document.getElementById ('password') as HTMLInputElement;
+  const repeatedPasswordInput: HTMLInputElement | null = document.getElementById ('repeated-password') as HTMLInputElement;
+
+  // Button
+  const registerButton: HTMLInputElement | null = document.getElementById ('register-button') as HTMLInputElement;  
+  
+  registerButton.addEventListener('click', (e) => {
+    e.preventDefault();
+    
+    const email = emailInput.value;
+    const name = nameInput.value;
+    const surname = surnameInput.value;
+    const password = passwordInput.value;
+    const repeatedPassword = repeatedPasswordInput.value;
+
+    if (!email || !name || !surname || !password || !repeatedPassword) {
+      setErrorMessage("You must complete all the inputs");
+    } else {
+      if (password !== repeatedPassword) {
+        setErrorMessage("Passwords don't match");
+      } else {
+        registerUser (email, name, surname, password);
+
+        setOkMessage();
+      }
+    }
+    
+  });
+
+  function setErrorMessage(message: string): void {
+    const messageBox: HTMLParagraphElement | null = document.getElementById ('message-box') as HTMLParagraphElement;
+
+    messageBox.classList.add('text-red-600');
+    messageBox.classList.add('border-red-600');
+    messageBox.classList.add('bg-red-gradient');
+    messageBox.classList.remove('hidden');
+
+    messageBox.innerHTML = '';
+    messageBox.innerHTML = message;
+  }
+
+  function setOkMessage(): void {
+    const messageBox: HTMLParagraphElement | null = document.getElementById ('message-box') as HTMLParagraphElement;
+
+      if (messageBox.classList.contains('text-red-600')) {
+        messageBox.classList.remove('text-red-600');
+        messageBox.classList.remove('border-red-600');
+        messageBox.classList.remove('bg-red-gradient');
+      }
+
+      messageBox.classList.add('text-tuturnera-dark-green');
+      messageBox.classList.add('border-tuturnera-dark-green');
+      messageBox.classList.add('bg-green-gradient-message');
+
+      if (messageBox.classList.contains('hidden')) {
+        messageBox.classList.remove('hidden');
+      }
+
+      messageBox.innerHTML = '';
+      messageBox.innerHTML = 'Usuario registrado exitosamente.';
+  }
+
+  async function registerUser (email: string, name: string, surname: string, password: string) {
+    try {
+      const id: number = parseInt(process.env.CLIENT_ROLE_ID || "0");
+
+      if (isNaN(id)) {
+        throw new Error("CLIENT_ROLE_ID must be a valid number");
+      }
+
+      const role = await getRoleById(id);
+
+      if (!role) {
+        throw new Error("Doesn't exist a role with that ID");
+      }
+
+      await createUser({ 
+        email, 
+        name, 
+        surname, 
+        password, 
+        role
+      });
+    } catch (error: any) {
+      console.error("Error:", error.message);
+    }
   }
 </script>

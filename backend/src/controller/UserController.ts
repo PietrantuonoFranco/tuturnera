@@ -45,7 +45,7 @@ export class UserController {
             email,
             name,
             surname,
-            hashedPassword,
+            password: hashedPassword,
             imgProfileURL,
             role,
             associatedUsers,

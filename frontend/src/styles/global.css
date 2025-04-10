@@ -4,6 +4,11 @@
     background-image: linear-gradient(to left bottom, #5ffbcd, #5dfac5, #5df9bd, #5df7b5, #5ff6ac, #5af5a4, #56f49c, #53f393, #46f288, #37f07d, #24ef71, #00ed64);
 }
 
+.bg-green-gradient-message {
+    background-image: linear-gradient( to right, oklch(0.82 0.19 160) 5%, transparent);
+
+}
+
 .bg-light-gradient {
     background-image: linear-gradient(to bottom, #f3e7e9 0%, #e3eeff 99%, #e3eeff 100%);
 }
