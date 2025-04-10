@@ -35,7 +35,7 @@ export class AdressController {
             city,
             province,
             country
-        }: Adress = request.body;
+        } = request.body;
 
         const adress = Object.assign(new Adress(), {
             street,

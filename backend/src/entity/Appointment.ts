@@ -5,10 +5,10 @@ import { Service } from "./Service.ts";
 @Entity()
 export class Appointment extends BaseEntity {
     @PrimaryGeneratedColumn()
-    id!: number;
+    id: number;
 
     @Column()
-    date!: Date;
+    date: Date;
 
     @Column({ type: "varchar", length: 45, nullable: true })
     subject: string | null = null;
@@ -17,5 +17,5 @@ export class Appointment extends BaseEntity {
     appointmentState!: string;
 
     @ManyToOne(() => Appointment, (appointment) => appointment.service)
-    service!: Service;
+    service: Service;
 }

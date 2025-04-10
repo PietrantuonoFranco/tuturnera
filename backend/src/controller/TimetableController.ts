@@ -27,7 +27,7 @@ export class TimetableController {
         const {
             day,
             hour
-        }: Timetable = request.body;
+        } = request.body;
 
         const timetable = Object.assign(new Timetable(), {
             day,

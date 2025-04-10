@@ -4,13 +4,13 @@ import { BaseEntity, Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 @Entity()
 export class Adress extends BaseEntity {
     @PrimaryGeneratedColumn()
-    id!: number;
+    id: number;
 
     @Column({ type: "varchar", length: 45 })
-    street!: string;
+    street: string;
     
     @Column({ type: "int" })
-    number!: number;
+    number: number;
 
     @Column({ type: "int", nullable: true })
     floor: number | null = null;
@@ -22,11 +22,11 @@ export class Adress extends BaseEntity {
     intersectionStreet: string | null = null;
 
     @Column({ type: "varchar", length: 45 })
-    city!: string;
+    city: string;
 
     @Column({ type: "varchar", length: 45 })
-    province!: string;
+    province: string;
 
     @Column({ type: "varchar", length: 45 })
-    country!: string;
+    country: string;
 }

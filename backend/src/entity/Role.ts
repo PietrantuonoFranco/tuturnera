@@ -5,8 +5,8 @@ import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 @Entity()
 export class Role extends BaseEntity {
     @PrimaryGeneratedColumn()
-    id!: number;
+    id: number;
 
     @Column({ type: "varchar", length: 45 })
-    name!: string;
+    name: string;
 }

@@ -24,13 +24,15 @@ export class RoleController {
     }
 
     async save(request: Request, response: Response, next: NextFunction) {
-        const { name }: Role = request.body;
+        const { name } = request.body;
 
-        const role = Object.assign(new Role(), {
-            name
-        })
-
-        return this.roleRepository.save(role)
+        if (!name) {
+            return response.status(400).json({ error: "El campo 'name' es requerido" });
+        }
+    
+        const role = Object.assign(new Role(), { name });
+        
+        return this.roleRepository.save(role);
     }
 
     async remove(request: Request, response: Response, next: NextFunction) {

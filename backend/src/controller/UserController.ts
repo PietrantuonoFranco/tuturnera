@@ -36,7 +36,7 @@ export class UserController {
             associatedUsers,
             services,
             appointments,
-        }: User = request.body;
+        } = request.body;
 
         const saltRounds = parseInt(process.env.SALT_ROUNDS);
         const hashedPassword = await bcrypt.hash(password, saltRounds);

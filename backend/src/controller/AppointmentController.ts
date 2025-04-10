@@ -29,7 +29,7 @@ export class AppointmentController {
             subject,
             appointmentState,
             service
-        }: Appointment = request.body;
+        } = request.body;
 
         const appointment = Object.assign(new Appointment(), {
             date,

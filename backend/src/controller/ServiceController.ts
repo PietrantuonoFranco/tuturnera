@@ -32,7 +32,7 @@ export class ServiceController {
             imgProfileURL,
             adress,
             timetables,
-        }: Service = request.body;
+        } = request.body;
 
         const service = Object.assign(new Service(), {
             name,

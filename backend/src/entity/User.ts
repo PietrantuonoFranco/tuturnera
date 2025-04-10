@@ -7,29 +7,29 @@ import { Role } from "./Role.ts";
 @Entity()
 export class User extends BaseEntity {
     @PrimaryGeneratedColumn()
-    id!: number;
+    id: number;
 
     @Column({ type: "varchar", length: 45, unique: true })
-    email!: string;
+    email: string;
 
     @Column({ type: "varchar", length: 45 })
-    name!: string;
+    name: string;
 
     @Column({ type: "varchar", length: 45 })
-    surname!: string;
+    surname: string;
 
     @Column({ type: "varchar", length: 45 })
-    password!: string;
+    password: string;
 
     @Column({ type: "varchar", length: 45, nullable: true })
     imgProfileURL: string | null = null;
 
     @OneToOne(() => Role)
     @JoinColumn()
-    role!: Role;
+    role: Role;
 
     @OneToMany(() => User, (user) => user.parent)
-    associatedUsers!: User[];
+    associatedUsers: User[];
 
     @ManyToOne(() => User, (user) => user.associatedUsers, { nullable: true })
     parent: User | null = null;
