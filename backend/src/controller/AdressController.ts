@@ -1,68 +1,100 @@
-import { AppDataSource } from "../data-source.js"
-import { NextFunction, Request, Response } from "express"
-import { Adress } from "../entity/Adress.ts"
-import { ApplyChangesetOptions } from "node:sqlite"
-import { Appointment } from "../entity/Appointment.ts"
+import { AppDataSource } from "../data-source.js";
+import { NextFunction, Request, Response } from "express";
+import { Adress } from "../entity/Adress.ts";
 
+const adressRepository = AppDataSource.getRepository(Adress);
 export class AdressController {
-    private adressRepository = AppDataSource.getRepository(Adress)
+  static async all(request: Request, response: Response, next: NextFunction) {
+    try {
+      const adresses = await adressRepository.find();
 
-    async all(request: Request, response: Response, next: NextFunction) {
-        return this.adressRepository.find()
+      if (adresses.length === 0) {
+        return response.status(404).json({ error: "Adresses not found" });
+      }
+
+      return response.status(200).json({ message: "Adresses found", adresses: adresses });
+    } catch (error) {
+      return response.status(500).json({ error: "Internal server error" });
     }
+  }
 
-    async one(request: Request, response: Response, next: NextFunction) {
-        const id = parseInt(request.params.id)
+  static async one(request: Request, response: Response, next: NextFunction) {
+    try {
+      const id = parseInt(request.params.id);
+    
+      if (!id) {
+        return response.status(400).json({ error: "Adress ID not provided"});
+      }
 
+      const adress = await adressRepository.findOne({
+        where: { id }
+      });
 
-        const adress = await this.adressRepository.findOne({
-            where: { id }
-        })
+      if (!adress) {
+        return response.status(404).json({ error: "Adress not found" });
+      }
 
-        if (!adress) {
-            return "unregistered adress"
-        }
-        return adress
+      return response.status(200).json({ message: "Adress found", adress: adress });
+    } catch {
+      return response.status(500).json({ error: "Internal server error" });
     }
+  }
 
-    async save(request: Request, response: Response, next: NextFunction) {
-        const {
-            street,
-            number,
-            floor,
-            department,
-            intersectionStreet,
-            city,
-            province,
-            country
-        } = request.body;
+  static async save(request: Request, response: Response, next: NextFunction) {
+    try {  
+      const {
+        street,
+        number,
+        floor,
+        department,
+        intersectionStreet,
+        city,
+        province,
+        country
+      } = request.body;
 
-        const adress = Object.assign(new Adress(), {
-            street,
-            number,
-            floor,
-            department,
-            intersectionStreet,
-            city,
-            province,
-            country
-        })
+      if ( !street || !number || !city || !province || !country) {
+        return response.status(400).json({ error: "Adress not null data not provided" });
+      }
 
-        return this.adressRepository.save(adress)
+      const adress = Object.assign(new Adress(), {
+        street,
+        number,
+        floor,
+        department,
+        intersectionStreet,
+        city,
+        province,
+        country
+      });
+
+      await adressRepository.save(adress);
+
+      return response.status(201).json({ message: "Adress created", adress: adress });
+    } catch {
+      return response.status(500).json({ error: "Internal server error" });
     }
+  }
 
-    async remove(request: Request, response: Response, next: NextFunction) {
-        const id = parseInt(request.params.id)
+  static async remove(request: Request, response: Response, next: NextFunction) {
+    try {
+      const id = parseInt(request.params.id);
 
-        let adressToRemove = await this.adressRepository.findOneBy({ id })
+      if (!id) {
+        return response.status(400).json({ error: "Adress ID not provided"});
+      }
+      
+      let adressToRemove = await adressRepository.findOneBy({ id });
 
-        if (!adressToRemove) {
-            return "this adress not exist"
-        }
+      if (!adressToRemove) {
+        return response.status(404).json({ error: "Adress not found" });
+      }
 
-        await this.adressRepository.remove(adressToRemove)
+      await adressRepository.remove(adressToRemove);
 
-        return "adress has been removed"
+      return response.status(204).json({ message: "Adress deleted" });
+    } catch {
+      return response.status(500).json({ error: "Internal server error" });
     }
-
+  }
 }

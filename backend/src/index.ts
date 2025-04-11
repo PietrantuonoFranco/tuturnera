@@ -1,36 +1,41 @@
 import express from "express";
-import bodyParser from "body-parser";
-import { Request, Response } from "express";
 import { AppDataSource } from "./data-source.ts";
-import { Routes } from "./routes.ts";
 import 'dotenv/config';
 import cors from "cors"
+import cookieParser from "cookie-parser"
+
+//Routes
+import AdressRoutes from "./routes/AdressRoutes.ts"
+import AppointmentRoutes from "./routes/AppointmentRoutes.ts"
+import AuthRoutes from "./routes/AuthRoutes.ts"
+import RoleRoutes from "./routes/RoleRoutes.ts"
+import ServiceRoutes from "./routes/ServiceRoutes.ts"
+import TimetableRoutes from "./routes/TimetableRoutes.ts"
+import UserRoutes from "./routes/UserRoutes.ts"
 
 AppDataSource.initialize().then(async () => {
-
     // create express app
     const app = express();
 
-    app.use(cors());
+    app.use(cors({
+        origin: 'http://localhost:4321',
+        credentials: true,
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        allowedHeaders: ['Content-Type', 'Authorization']
+    }));
 
+    app.use(cookieParser());
     app.use(express.json());
 
     // register express routes from defined application routes
-    Routes.forEach(entityRoute => {
-        entityRoute.forEach(route => {
-            (app as any)[route.method](route.route, (req: Request, res: Response, next: Function) => {
-                const result = (new (route.controller as any))[route.action](req, res, next);
-
-                if (result instanceof Promise) {
-                    result.then(result => result !== null && result !== undefined ? res.send(result) : undefined);
-
-                } else if (result !== null && result !== undefined) {
-                    res.json(result);
-                }
-            });
-        });
-    });
-
+    app.use("/adresses", AdressRoutes);
+    app.use("/appointments", AppointmentRoutes);
+    app.use("/auths", AuthRoutes);
+    app.use("/roles", RoleRoutes);
+    app.use("/services", ServiceRoutes);
+    app.use("/timetables", TimetableRoutes);
+    app.use("/users", UserRoutes);
+    
     // setup express app here
     // ...
 

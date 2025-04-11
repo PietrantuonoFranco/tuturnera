@@ -1,24 +1,11 @@
+import express from "express"
 import { TimetableController } from "../controller/TimetableController.ts"
-import { Route } from "../interface/RouteInterface.ts"
 
-export const TimetableRoutes: Route[] = [{
-    method: "get",
-    route: "/timetables",
-    controller: TimetableController,
-    action: "all"
-}, {
-    method: "get",
-    route: "/timetables/:id",
-    controller: TimetableController,
-    action: "one"
-}, {
-    method: "post",
-    route: "/timetables",
-    controller: TimetableController,
-    action: "save"
-}, {
-    method: "delete",
-    route: "/timetables/:id",
-    controller: TimetableController,
-    action: "remove"
-}]
+const router = express.Router();
+
+router.get("/", TimetableController.all);
+router.get("/:id", TimetableController.one);
+router.post("/", TimetableController.save);
+router.delete("/:id", TimetableController.remove);
+
+export default router;

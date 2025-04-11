@@ -1,64 +1,98 @@
-import { AppDataSource } from "../data-source.js"
-import { NextFunction, Request, Response } from "express"
-import { Service } from "../entity/Service.ts"
+import { AppDataSource } from "../data-source.js";
+import { NextFunction, Request, Response } from "express";
+import { Service } from "../entity/Service.ts";
 
+const serviceRepository = AppDataSource.getRepository(Service);
 export class ServiceController {
-    private serviceRepository = AppDataSource.getRepository(Service)
+  static async all(request: Request, response: Response, next: NextFunction) {
+    try {
+      const services = await serviceRepository.find();
 
-    async all(request: Request, response: Response, next: NextFunction) {
-        return this.serviceRepository.find()
+      if (services.length === 0) {
+        return response.status(404).json({ error: "Services not found" });
+      }
+
+      return response.status(200).json({ message: "Services found", services: services });
+    } catch (error) {
+      return response.status(500).json({ error: "Internal server error" });
+    } 
+  }
+
+  static async one(request: Request, response: Response, next: NextFunction) {
+    try {
+      const id = parseInt(request.params.id);
+
+      if (!id) {
+        return response.status(400).json({ error: "Service ID not provided"});
+      }
+
+      const service = await serviceRepository.findOne({
+        where: { id }
+      });
+
+      if (!service) {
+        return response.status(404).json({ error: "Service not found" });
+      }
+
+      return response.status(200).json({ message: "Service found", service: service });
+    } catch {
+      return response.status(500).json({ error: "Internal server error" });
     }
+  }
 
-    async one(request: Request, response: Response, next: NextFunction) {
-        const id = parseInt(request.params.id)
+  static async save(request: Request, response: Response, next: NextFunction) {
+    try {
+      const {
+        name,
+        phone,
+        email,
+        description,
+        imgProfileURL,
+        adress,
+        timetables,
+      } = request.body;
 
+      if (!name || !adress || !timetables) {
+        return response.status(400).json({ error: "Necesary data not provided" });
+      }
 
-        const service = await this.serviceRepository.findOne({
-            where: { id }
-        })
+      const service = Object.assign(new Service(), {
+        name,
+        phone,
+        email,
+        description,
+        imgProfileURL,
+        adress,
+        timetables,
+      });
 
-        if (!service) {
-            return "unregistered service"
-        }
-        return service
+      await serviceRepository.save(service);
+
+      return response.status(201).json({ message: "Service created", service: service });
+    } catch {
+      return response.status(500).json({ error: "Internal server error" });
     }
+  }
 
-    async save(request: Request, response: Response, next: NextFunction) {
-        const {
-            name,
-            phone,
-            email,
-            description,
-            imgProfileURL,
-            adress,
-            timetables,
-        } = request.body;
+  static async remove(request: Request, response: Response, next: NextFunction) {
+    try {
+      const id = parseInt(request.params.id);
 
-        const service = Object.assign(new Service(), {
-            name,
-            phone,
-            email,
-            description,
-            imgProfileURL,
-            adress,
-            timetables,
-        })
+      if (!id) {
+        return response.status(400).json({ error: "Service ID not provided"});
+      }
 
-        return this.serviceRepository.save(service)
+      let serviceToRemove = await serviceRepository.findOneBy({ id });
+
+      if (!serviceToRemove) {
+        return response.status(404).json({ error: "Service not found" });
+      }
+
+      await serviceRepository.remove(serviceToRemove);
+
+      return response.status(204).json({ message: "Service deleted" });
+    } catch {
+      return response.status(500).json({ error: "Internal server error" });
     }
-
-    async remove(request: Request, response: Response, next: NextFunction) {
-        const id = parseInt(request.params.id)
-
-        let serviceToRemove = await this.serviceRepository.findOneBy({ id })
-
-        if (!serviceToRemove) {
-            return "this service not exist"
-        }
-
-        await this.serviceRepository.remove(serviceToRemove)
-
-        return "service has been removed"
-    }
-
+  }
 }

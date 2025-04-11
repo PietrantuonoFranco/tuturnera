@@ -3,6 +3,7 @@ import { BaseEntity, Entity, Column, PrimaryGeneratedColumn, OneToMany, ManyToOn
 import { Service } from "./Service.ts";
 import { Appointment } from "./Appointment.ts";
 import { Role } from "./Role.ts";
+import bcrypt from "bcryptjs"
 
 @Entity()
 export class User extends BaseEntity {
@@ -39,4 +40,14 @@ export class User extends BaseEntity {
 
     @OneToMany(() => User, (user) => user.appointments, {nullable: true})
     appointments: Appointment[] | null = null;
+
+
+
+    async hashPassword() {
+        this.password = await bcrypt.hash(this.password, process.env.SALT_ROUNDS);
+    }
+
+    async comparePassword(attempt: string): Promise<boolean> {
+        return await bcrypt.compare(attempt, this.password);
+    }
 }

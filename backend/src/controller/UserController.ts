@@ -4,70 +4,109 @@ import { User } from "../entity/User.js"
 import "dotenv"
 import bcrypt from "bcryptjs";
 
+const userRepository = AppDataSource.getRepository(User);
 export class UserController {
-    private userRepository = AppDataSource.getRepository(User)
+  static async all(request: Request, response: Response, next: NextFunction) {
+    try {
+      const users = await userRepository.find();
 
-    async all(request: Request, response: Response, next: NextFunction) {
-        return this.userRepository.find()
+      if (users.length === 0) {
+        return response.status(404).json({ error: "Users not found" });
+      }
+
+      return response.status(200).json({ message: "Users found", users: users });
+    } catch (error) {
+      return response.status(500).json({ error: "Internal server error" });
     }
+  }
 
-    async one(request: Request, response: Response, next: NextFunction) {
-        const id = parseInt(request.params.id)
+    
+  static async one(request: Request, response: Response, next: NextFunction) {
+    try {
+      const id = parseInt(request.params.id);
+    
+      if (!id) {
+        return response.status(500).json({ error: "User ID not provided"});
+      }
 
+      const user = await userRepository.findOne({
+        where: { id }
+      });
 
-        const user = await this.userRepository.findOne({
-            where: { id }
-        })
+      if (!user) {
+        return response.status(404).json({ error: "User not found" });
+      }
 
-        if (!user) {
-            return "unregistered user"
-        }
-        return user
+      return response.status(200).json({ message: "User found", user: user });
+    } catch {
+      return response.status(500).json({ error: "Internal server error" });
     }
+  }
 
-    async save(request: Request, response: Response, next: NextFunction) {
-        const {
-            email,
-            name,
-            surname,
-            password,
-            imgProfileURL,
-            role,
-            associatedUsers,
-            services,
-            appointments,
-        } = request.body;
+  static async save(request: Request, response: Response, next: NextFunction) {
+    try {
+      const {
+        email,
+        name,
+        surname,
+        password,
+        imgProfileURL,
+        role,
+        associatedUsers,
+        services,
+        appointments,
+      } = request.body;
 
-        const saltRounds = parseInt(process.env.SALT_ROUNDS);
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
+      if (!email || !name || !surname || !password || !role) {
+        return response.status(400).json({ error: "Necesary data not provided" });
+      }
 
-        const user = Object.assign(new User(), {
-            email,
-            name,
-            surname,
-            password: hashedPassword,
-            imgProfileURL,
-            role,
-            associatedUsers,
-            services,
-            appointments,
-        })
+      let user = await userRepository.findOne({ where: { email } });
+      
+      if (user) {
+        return response.status(400).json({ message: "User already exists" });
+      }
 
-        return this.userRepository.save(user)
+      user = Object.assign(new User(), {
+        email,
+        name,
+        surname,
+        password,
+        imgProfileURL,
+        role,
+        associatedUsers,
+        services,
+        appointments,
+      });
+
+      await user.hashPassword();
+      await userRepository.save(user);
+
+      return response.status(201).json({ message: "User created", user: user });
+    } catch (error) {
+      return response.status(500).json({ message: "Internal server error" });
     }
+  }
 
-    async remove(request: Request, response: Response, next: NextFunction) {
-        const id = parseInt(request.params.id)
+  static async remove(request: Request, response: Response, next: NextFunction) {
+    try {
+      const id = parseInt(request.params.id);
 
-        let userToRemove = await this.userRepository.findOneBy({ id })
+      if (!id) {
+        return response.status(400).json({ error: "User ID not provided"});
+      }
 
-        if (!userToRemove) {
-            return "this user not exist"
-        }
+      let userToRemove = await userRepository.findOneBy({ id });
 
-        await this.userRepository.remove(userToRemove)
+      if (!userToRemove) {
+        return response.status(404).json({ error: "User not found" });
+      }
 
-        return "user has been removed"
+      await userRepository.remove(userToRemove);
+
+      return response.status(204).json({ message: "User deleted" });
+    } catch (error) {
+      return response.status(500).json({ message: "Internal server error" });
     }
-
+  }
 }

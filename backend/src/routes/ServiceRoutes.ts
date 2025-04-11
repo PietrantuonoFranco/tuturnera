@@ -1,24 +1,11 @@
+import express from "express"
 import { ServiceController } from "../controller/ServiceController.ts"
-import { Route } from "../interface/RouteInterface.ts"
 
-export const ServiceRoutes: Route[] = [{
-    method: "get",
-    route: "/services",
-    controller: ServiceController,
-    action: "all"
-}, {
-    method: "get",
-    route: "/services/:id",
-    controller: ServiceController,
-    action: "one"
-}, {
-    method: "post",
-    route: "/services",
-    controller: ServiceController,
-    action: "save"
-}, {
-    method: "delete",
-    route: "/services/:id",
-    controller: ServiceController,
-    action: "remove"
-}]
+const router = express.Router();
+
+router.get("/", ServiceController.all);
+router.get("/:id", ServiceController.one);
+router.post("/", ServiceController.save);
+router.delete("/:id", ServiceController.remove);
+
+export default router;
