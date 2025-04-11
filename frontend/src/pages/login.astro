@@ -127,11 +127,9 @@ import Layout from "../layouts/Layout.astro";
 
       const response = await login(email, password);
 
-      if (!response.ok) {
-        throw new Error("An error has occurred");
+      if (response) {
+        window.location.href = "/";
       }
-
-      console.log(response);
     } catch (err: Error | any) {
       loginButton.innerText = ''
       loginButton.innerText = 'Login'

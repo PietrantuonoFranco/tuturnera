@@ -17,9 +17,11 @@ export const login = async (email: string, password: string) => {
 };
   
 export const logout = async () => {
-  await api.post(`${entity}/logout`, {}, {
+  const response = await api.post(`${entity}/logout`, {}, {
     withCredentials: true
   });
+
+  return await response.data;
 };
 
 export const getCurrentUser = async () => {
