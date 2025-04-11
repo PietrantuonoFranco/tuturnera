@@ -30,7 +30,8 @@ export const getCurrentUser = async () => {
         'Content-Type': 'application/json'
       }
     });
-    return response.data.user;
+
+    return await response.data.user;
   } catch (error) {
     console.error('Error al obtener usuario:', error);
     

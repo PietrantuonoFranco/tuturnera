@@ -1,5 +1,5 @@
 ---
-
+import ProfileData from "src/components/header/profileData"
 ---
 
 <header class="sticky z-1000 top-0 w-full bg-tuturnera-white shadow-md">
@@ -33,13 +33,17 @@
 
       <div class="h-3/4 w-[2px] bg-tuturnera-light-gray"></div>
 
-      <a href="/signup" class="hover:text-tuturnera-dark-green hover:drop-shadow-tuturnera-header-link">
-        Sign up
-      </a>
+      <div id="access-user-links-container" class="flex flex-row items-center justify-center gap-5"> 
+        <a href="/signup" class="hover:text-tuturnera-dark-green hover:drop-shadow-tuturnera-header-link">
+          Sign up
+        </a>
+  
+        <a href="/login" class="tuturnera-button hover:shadow-md border-2 border-tuturnera-blue bg-tuturnera-light-green text-tuturnera-blue py-2 px-5">
+          Log in
+        </a>
+      </div>
 
-      <a href="/login" class="tuturnera-button hover:shadow-md border-2 border-tuturnera-blue bg-tuturnera-light-green text-tuturnera-blue py-2 px-5">
-        Log in
-      </a>
+      <ProfileData client:load/>
     </div>  
   </div>
 
@@ -121,4 +125,18 @@
       headerContent?.classList.add('invisible');
     }
   });
+</script>
+
+<script>
+  import { getCurrentUser } from "src/api/auth";
+
+  window.onload = async function () {
+    const accountAccesLinksContainer = document.getElementById('access-user-links-container')
+    const response = await getCurrentUser();
+
+    if (response) {
+      accountAccesLinksContainer?.classList.add('hidden');
+//      console.log(userData);
+    }
+  }
 </script>
